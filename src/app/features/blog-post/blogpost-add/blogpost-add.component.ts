@@ -1,21 +1,25 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddBlogPost } from '../models/add-blog-post.model';
 import { BlogPostService } from '../services/blog-post.service';
-import { Route, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { CategoryService } from '../../category/services/category.service';
+import { Category } from '../../category/models/category.model';
 
 @Component({
   selector: 'app-blogpost-add',
   templateUrl: './blogpost-add.component.html',
   styleUrls: ['./blogpost-add.component.css']
 })
-export class BlogpostAddComponent implements OnDestroy{
+export class BlogpostAddComponent implements OnDestroy, OnInit{
 
   model: AddBlogPost;
   private addBlogPostSubscription ?: Subscription;
+  categories$ ?: Observable<Category[]>;
 
   constructor(private blogPostService: BlogPostService,
-              private router: Router){
+              private router: Router,
+              private categorySevice: CategoryService){
 
     this.model = {
       title: '',
@@ -25,11 +29,16 @@ export class BlogpostAddComponent implements OnDestroy{
       urlHandle: '',
       publishedDate: new Date(),
       author: '',
-      isVisible: true      
+      isVisible: true,
+      categories: []
     }
+  }
+  ngOnInit(): void {    
+    this.categories$ = this.categorySevice.getAllCategories();
   }
 
   onFormSubmit() : void{
+    console.log(this.model)
     this.addBlogPostSubscription = this.blogPostService.addBlogPost(this.model).subscribe({
       next: (response) =>{
         this.router.navigateByUrl('admin/blogposts');
@@ -38,6 +47,6 @@ export class BlogpostAddComponent implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.addBlogPostSubscription?.unsubscribe();
+    this.addBlogPostSubscription?.unsubscribe();    
   }
 }
