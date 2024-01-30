@@ -19,5 +19,9 @@ export class BlogPostService {
   getAllBlogPosts() : Observable<BlogPost[]>{
     return this.http.get<BlogPost[]> (`${environment.appBaseUrl}BlogPost`);
   }
+
+  getBlogPostById(id: string) : Observable<BlogPost>{
+    return this.http.get<BlogPost> (`${environment.appBaseUrl}BlogPost/${id}`)
+  }
   
 }
