@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogPost } from '../models/blog-post.model';
 import { BlogPostService } from '../services/blog-post.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { CategoryService } from '../../category/services/category.service';
+import { Category } from '../../category/models/category.model';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -13,32 +15,39 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   id: string | null = null;
   model?: BlogPost;
   paramssubscription?: Subscription;
+  categories$?: Observable<Category[]>;
+  selectedCategories?: string[]
 
   constructor(private route: ActivatedRoute,
-              private blogPostService: BlogPostService) {
+    private blogPostService: BlogPostService,
+    private categoryService: CategoryService) {
 
   }
   ngOnInit(): void {
-    this.paramssubscription = this.route.paramMap.subscribe({
-        next: (params) => {
-          this.id = params.get('id')
 
-          if(this.id){
-           this.blogPostService.getBlogPostById(this.id).subscribe({
-            next:(response) => {
+    this.categories$ = this.categoryService.getAllCategories();
+
+    this.paramssubscription = this.route.paramMap.subscribe({
+      next: (params) => {
+        this.id = params.get('id')
+
+        if (this.id) {
+          this.blogPostService.getBlogPostById(this.id).subscribe({
+            next: (response) => {
               this.model = response
+              this.selectedCategories = response.categories.map(x => x.id);
             }
-           });
-          }
+          });
         }
+      }
     })
   }
-  
-  onFormSubmit(): void{
+
+  onFormSubmit(): void {
 
 
   }
-  
+
   ngOnDestroy(): void {
     this.paramssubscription?.unsubscribe();
   }
