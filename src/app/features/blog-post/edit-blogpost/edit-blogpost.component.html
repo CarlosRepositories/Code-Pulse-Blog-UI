@@ -2,7 +2,7 @@
     <h1 class="mt-3">Edit BlogPost</h1>
 
     <ng-container *ngIf="model">
-        <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+        <form #form="ngForm" (ngSubmit)="onFormSubmit()" name="EditBlogPost">
             <div class="mt-2 mb-5">
                 <div class="mt-3">
                     <label for="Title">Title</label>
@@ -12,13 +12,15 @@
                 <div class="mt-3">
                     <label for="UrlHandle">UrlHandle</label>
                     <input type="text" id="UrlHandle" class="form-control" name="UrlHandle"
-                        [(ngModel)]="model.urlHandle">
+                        [(ngModel)]="model.urlHandle"
+                        [ngModelOptions]="{standalone: true}">
                 </div>
 
                 <div class="mt-3">
                     <label for="ShortDescription">Short Description</label>
                     <input type="text" id="ShortDescription" class="form-control" name="ShortDescription"
-                        [(ngModel)]="model.shortDescription">
+                        [(ngModel)]="model.shortDescription"
+                        [ngModelOptions]="{standalone: true}">
                 </div>
 
                 <div class="mt-3">
@@ -27,7 +29,8 @@
                     <div class="d-flex flex-row">
                         <div class="col-6 p-2">
                             <textarea name="content" id="content" class="form-control"
-                                style="height: 350px ; max-height: 350px;" [(ngModel)]="model.content"></textarea>
+                                style="height: 350px ; max-height: 350px;" [(ngModel)]="model.content"
+                                [ngModelOptions]="{standalone: true}"></textarea>
                         </div>
                         <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
                             <markdown [data]="model.content"></markdown>
@@ -45,23 +48,31 @@
                     </ng-container>
 
                     <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control"
-                        [(ngModel)]="model.featuredImageUrl">
+                        [(ngModel)]="model.featuredImageUrl"
+                        [ngModelOptions]="{standalone: true}">
                 </div>
 
                 <div class="mt-3">
                     <label for="publishedDate" class="form-label">Published date</label>
-                    <input type="date" id="publishedDate" name="publishedDate" class="form-control"
-                        value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date:'yyy-MM-dd'"
-                        (ngModelChange)=$event>
+                    <input type="date" 
+                    id="publishedDate" 
+                    name="publishedDate" 
+                    class="form-control"
+                    value="{{model.publishedDate}}" 
+                    [ngModel]="model.publishedDate | date:'yyy-MM-dd'"
+                    (ngModelChange)="model.publishedDate = $event" 
+                    [ngModelOptions]="{standalone: true}">
                 </div>
 
                 <div class="mt-3">
                     <label for="author" class="form-label">Author</label>
-                    <input type="text" id="author" name="author" class="form-control" [(ngModel)]="model.author">
+                    <input type="text" id="author" name="author" class="form-control" [(ngModel)]="model.author"
+                    [ngModelOptions]="{standalone: true}">
                 </div>
 
                 <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible">
+                    <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible"
+                    [ngModelOptions]="{standalone: true}">
                     <label class="form-check-label" for="isVisible">
                         Is Visible?
                     </label>
@@ -71,7 +82,7 @@
                     <label for="categories" class="form-label">Categories</label>
                     <ng-container *ngIf="categories$ | async as categories">
                         <select name="categories" class="form-control" [(ngModel)]="selectedCategories" id="categories"
-                            multiple>
+                            multiple [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let category of categories" [value]="category.id">
                                 {{category.name}}
                             </option>
