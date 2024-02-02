@@ -72,7 +72,7 @@
                 class="form-control"
                 value="{{model.publishedDate}}"
                 [ngModel]="model.publishedDate | date:'yyy-MM-dd'"
-                (ngModelChange)= $event>
+                (ngModelChange)="model.publishedDate = $event" >
             </div>
     
             <div class="mt-3">

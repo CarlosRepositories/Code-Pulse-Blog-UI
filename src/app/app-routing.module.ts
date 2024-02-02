@@ -5,6 +5,7 @@ import { AddCategoryComponent } from './features/category/add-category/add-categ
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
 import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpost-list.component';
 import { BlogpostAddComponent } from './features/blog-post/blogpost-add/blogpost-add.component';
+import { EditBlogpostComponent } from './features/blog-post/edit-blogpost/edit-blogpost.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,12 @@ const routes: Routes = [
   {
     path: 'admin/blogposts/add',
     component: BlogpostAddComponent
+  },
+  {
+    path: 'admin/blogposts/:id',
+    component: EditBlogpostComponent
   }
+  
 ];
 
 @NgModule({
