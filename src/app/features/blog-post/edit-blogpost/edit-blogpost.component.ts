@@ -20,6 +20,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   selectedCategories?: string[];
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
+  deleteBlogPostSubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
     private blogPostService: BlogPostService,
@@ -49,17 +50,6 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   onFormSubmit(): void {
 
-    console.log("Tá chegando: " 
-                + this.model?.title + "\n" 
-                + this.model?.shortDescription + "\n"
-                + this.model?.content+ "\n"
-                + this.model?.featuredImageUrl + "\n"
-                + this.model?.urlHandle + "\n" 
-                + this.model?.publishedDate + "\n"
-                + this.model?.author + "\n"
-                + this.model?.isVisible +"\n"
-                + this.selectedCategories);
-
     if(this.model && this.id){
 
       var updateRequestModel: UpdateBlogPost = {
@@ -80,9 +70,16 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
 
-
-    
+  OnDelete() : void{
+    if(this.id){
+      this.deleteBlogPostSubscription =  this.blogPostService.deleteBlogPost(this.id).subscribe({
+        next: (response) =>{
+          this.router.navigateByUrl('admin/blogposts')
+        }
+      })
+    }
 
   }
 
@@ -90,6 +87,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     this.paramssubscription?.unsubscribe();
     this.updateBlogPostSubscription?.unsubscribe();
     this.getBlogPostSubscription?.unsubscribe();
+    this.deleteBlogPostSubscription?.unsubscribe();
   }
 
 }
