@@ -21,6 +21,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
   deleteBlogPostSubscription?: Subscription;
+  showImageSelector: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private blogPostService: BlogPostService,
@@ -81,6 +82,15 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
       })
     }
 
+  }
+
+  OpenImageSelector() : void{
+    this.showImageSelector = true    
+
+  }
+
+  CloseImageSelector() : void{
+    this.showImageSelector = false
   }
 
   ngOnDestroy(): void {
