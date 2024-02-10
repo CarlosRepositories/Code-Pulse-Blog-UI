@@ -4,5 +4,5 @@ export interface BlogImage{
     fileExtension : string;
     title: string;
     url: string;
-    dateCreated: Date;
+    dateCreated?: Date;
 }
