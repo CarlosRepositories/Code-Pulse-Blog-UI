@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
 import { UpdateBlogPost } from '../models/update-blog-post-request.model';
+import { ImageService } from 'src/app/shared/components/image-selector/image.service';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -18,14 +19,18 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   paramssubscription?: Subscription;  
   categories$?: Observable<Category[]>;
   selectedCategories?: string[];
+  showImageSelector: boolean = false;
+
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
   deleteBlogPostSubscription?: Subscription;
+  imageSelectorSubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
     private blogPostService: BlogPostService,
     private categoryService: CategoryService,
-    private router: Router) {
+    private router: Router,
+    private imageService: ImageService) {
 
   }
   ngOnInit(): void {
@@ -44,6 +49,15 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
             }
           });
         }
+
+        this.imageSelectorSubscription = this.imageService.onSelectImage().subscribe({
+          next: (response) =>{
+            if(this.model){
+              this.model.featuredImageUrl = response.url;
+              this.showImageSelector =  false;           
+            }
+          }
+        })
       }
     })
   }
@@ -83,11 +97,20 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   }
 
+  OpenImageSelector() : void{
+    this.showImageSelector = true
+  }
+
+  CloseImageSelector() : void{
+    this.showImageSelector = false
+  }
+
   ngOnDestroy(): void {
     this.paramssubscription?.unsubscribe();
     this.updateBlogPostSubscription?.unsubscribe();
     this.getBlogPostSubscription?.unsubscribe();
     this.deleteBlogPostSubscription?.unsubscribe();
+    this.imageSelectorSubscription?.unsubscribe();
   }
 
 }
