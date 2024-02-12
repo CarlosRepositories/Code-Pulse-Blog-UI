@@ -98,8 +98,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   OpenImageSelector() : void{
-    this.showImageSelector = true    
-
+    this.showImageSelector = true
   }
 
   CloseImageSelector() : void{
