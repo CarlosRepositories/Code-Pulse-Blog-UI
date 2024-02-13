@@ -7,8 +7,13 @@ import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpo
 import { BlogpostAddComponent } from './features/blog-post/blogpost-add/blogpost-add.component';
 import { EditBlogpostComponent } from './features/blog-post/edit-blogpost/edit-blogpost.component';
 import { HomeComponent } from './features/public/home/home.component';
+import { BlogDetailsComponent } from './features/public/blog-details/blog-details.component';
 
-const routes: Routes = [
+const routes: Routes = [  
+  {
+    path:'blog/:url',
+    component: BlogDetailsComponent
+  },
   {
     path: '',
     component: HomeComponent
