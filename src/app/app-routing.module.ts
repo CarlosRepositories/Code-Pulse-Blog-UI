@@ -8,11 +8,16 @@ import { BlogpostAddComponent } from './features/blog-post/blogpost-add/blogpost
 import { EditBlogpostComponent } from './features/blog-post/edit-blogpost/edit-blogpost.component';
 import { HomeComponent } from './features/public/home/home.component';
 import { BlogDetailsComponent } from './features/public/blog-details/blog-details.component';
+import { LoginComponent } from './features/auth/login/login.component';
 
 const routes: Routes = [  
   {
     path:'blog/:url',
     component: BlogDetailsComponent
+  },
+  {
+    path:'login',
+    component:LoginComponent
   },
   {
     path: '',
